@@ -1,0 +1,9 @@
+This directory will hold all of my serious, or at least semi-serious gba
+development files. 
+
+Whenever I learn about a specific region of memory or process, I'll first do
+some messing around with it in the learning directory. After I feel
+comfortable with the process, I'll build all of the tools, reference headers,
+and functions I feel might be useful later and store them here.
+
+I expect it will grow slowly, but most good things do. 
