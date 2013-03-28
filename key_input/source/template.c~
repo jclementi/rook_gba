@@ -1,0 +1,47 @@
+#include "rook_types.h"
+#include "rook_memmap.h"
+#include "rook_video.h"
+#include "rook_core.h"
+#include "rook_input.h"
+
+#include <string.h>
+
+#include "gba_pic.h"
+
+#define BTN_PAL_ID 5
+#define CLR_UP RGB15(27,27,29)
+
+
+int main()
+{
+	int ii;
+	u32 btn;
+	COLOR clr;
+	int frame=0;
+
+	memcpy(vid_mem, gba_picBitmap, gba_picBitmapLen);
+	memcpy(pal_bg_mem, gba_picPal, gba_picPalLen);
+
+	REG_DISPCNT = DCNT_MODE4 | DCNT_BG2;
+	while(1) {
+		vid_vsync();
+		if((frame & 7) == 0)
+			key_poll();
+		for(ii = 0; ii < KI_MAX; ii++) {
+			clr = 0;
+			btn = 1<<ii;
+			if (key_hit(btn))
+				clr = CLR_RED;
+			else if (key_released(btn))
+				clr = CLR_YELLOW;
+			else if (key_held(btn))
+				clr = CLR_LIME;
+			else
+				clr = CLR_UP;
+			pal_bg_mem[BTN_PAL_ID+ii] = clr;
+		}
+		frame++;
+	}
+
+	return 0;
+}
